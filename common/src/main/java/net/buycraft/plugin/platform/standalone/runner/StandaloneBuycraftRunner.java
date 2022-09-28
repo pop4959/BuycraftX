@@ -4,7 +4,6 @@ import net.buycraft.plugin.BuyCraftAPI;
 import net.buycraft.plugin.IBuycraftPlatform;
 import net.buycraft.plugin.data.QueuedPlayer;
 import net.buycraft.plugin.data.responses.ServerInformation;
-import net.buycraft.plugin.execution.DuePlayerFetcher;
 import net.buycraft.plugin.platform.NoBlocking;
 import net.buycraft.plugin.platform.standalone.StandaloneBuycraftPlatform;
 import okhttp3.OkHttpClient;
@@ -24,7 +23,6 @@ public class StandaloneBuycraftRunner {
     private final IBuycraftPlatform platform;
     private final boolean verbose;
     private ServerInformation serverInformation;
-    private DuePlayerFetcher playerFetcher;
 
     StandaloneBuycraftRunner(CommandDispatcher dispatcher, PlayerDeterminer determiner, String apiKey, Logger logger, ScheduledExecutorService executorService, boolean verbose) {
         this.dispatcher = dispatcher;
@@ -42,15 +40,10 @@ public class StandaloneBuycraftRunner {
         } catch (IOException e) {
             throw new RuntimeException("Can't fetch account information", e);
         }
-        executorService.schedule(playerFetcher = new DuePlayerFetcher(platform, verbose), 1, TimeUnit.SECONDS);
     }
 
     public ServerInformation getServerInformation() {
         return this.serverInformation;
-    }
-
-    public DuePlayerFetcher getPlayerFetcher() {
-        return this.playerFetcher;
     }
 
     @NoBlocking

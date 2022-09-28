@@ -20,16 +20,7 @@ public class ForceCheckSubcommand implements Subcommand {
 
         if (plugin.getApiClient() == null) {
             sender.sendMessage(ChatColor.RED + plugin.getI18n().get("need_secret_key"));
-            return;
         }
-
-        if (plugin.getDuePlayerFetcher().inProgress()) {
-            sender.sendMessage(ChatColor.RED + plugin.getI18n().get("already_checking_for_purchases"));
-            return;
-        }
-
-        plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> plugin.getDuePlayerFetcher().run(false));
-        sender.sendMessage(ChatColor.GREEN + plugin.getI18n().get("forcecheck_queued"));
     }
 
     @Override

@@ -1,6 +1,5 @@
 package net.buycraft.plugin.bukkit;
 
-import net.buycraft.plugin.data.QueuedPlayer;
 import net.buycraft.plugin.data.ServerEvent;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -31,11 +30,6 @@ public class BuycraftListener implements Listener {
                 ServerEvent.JOIN_EVENT,
                 new Date()
         ));
-
-        QueuedPlayer qp = plugin.getDuePlayerFetcher().fetchAndRemoveDuePlayer(event.getPlayer().getName());
-        if (qp != null) {
-            plugin.getPlayerJoinCheckTask().queue(qp);
-        }
     }
 
     @EventHandler(priority = EventPriority.LOWEST)

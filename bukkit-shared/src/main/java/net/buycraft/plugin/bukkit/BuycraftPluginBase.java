@@ -17,7 +17,6 @@ import net.buycraft.plugin.bukkit.util.GUIUtil;
 import net.buycraft.plugin.bukkit.util.VersionCheck;
 import net.buycraft.plugin.bukkit.util.placeholder.BukkitNamePlaceholder;
 import net.buycraft.plugin.data.responses.ServerInformation;
-import net.buycraft.plugin.execution.DuePlayerFetcher;
 import net.buycraft.plugin.execution.ServerEventSenderTask;
 import net.buycraft.plugin.execution.placeholder.PlaceholderManager;
 import net.buycraft.plugin.execution.placeholder.UuidPlaceholder;
@@ -54,7 +53,6 @@ public abstract class BuycraftPluginBase extends JavaPlugin {
     private final BuycraftConfiguration configuration = new BuycraftConfiguration();
 
     private BuyCraftAPI apiClient;
-    private DuePlayerFetcher duePlayerFetcher;
     private BukkitTask duePlayerFetcherTask;
     private ListingUpdateTask listingUpdateTask;
     private ServerInformation serverInformation;
@@ -145,8 +143,6 @@ public abstract class BuycraftPluginBase extends JavaPlugin {
         placeholderManager.addPlaceholder(new UuidPlaceholder());
 
         // Start the essential tasks.
-        this.duePlayerFetcherTask = getServer().getScheduler().runTaskLaterAsynchronously(this, duePlayerFetcher = new DuePlayerFetcher(platform,
-                configuration.isVerbose()), 20);
         completedCommandsTask = new PostCompletedCommandsTask(platform);
 
         commandExecutor = new QueuedCommandExecutor(platform, completedCommandsTask);
@@ -320,10 +316,6 @@ public abstract class BuycraftPluginBase extends JavaPlugin {
 
     public void setApiClient(final BuyCraftAPI apiClient) {
         this.apiClient = apiClient;
-    }
-
-    public DuePlayerFetcher getDuePlayerFetcher() {
-        return this.duePlayerFetcher;
     }
 
     public ListingUpdateTask getListingUpdateTask() {

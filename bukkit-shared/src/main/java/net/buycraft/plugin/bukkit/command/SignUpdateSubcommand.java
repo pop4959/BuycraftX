@@ -24,11 +24,6 @@ public class SignUpdateSubcommand implements Subcommand {
             return;
         }
 
-        if (plugin.getDuePlayerFetcher().inProgress()) {
-            sender.sendMessage(ChatColor.RED + plugin.getI18n().get("already_checking_for_purchases"));
-            return;
-        }
-
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new RecentPurchaseSignUpdateFetcher(plugin));
         sender.sendMessage(ChatColor.GREEN + plugin.getI18n().get("sign_update_queued"));
     }

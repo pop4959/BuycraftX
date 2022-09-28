@@ -52,13 +52,6 @@ public class SecretSubcommand implements Subcommand {
 
             sender.sendMessage(ChatColor.GREEN + plugin.getI18n().get("secret_success",
                     information.getServer().getName(), information.getAccount().getName()));
-
-            boolean repeatChecks = false;
-            if (currentKey.equals("INVALID")) {
-                repeatChecks = true;
-            }
-
-            plugin.getDuePlayerFetcher().run(repeatChecks);
         });
     }
 

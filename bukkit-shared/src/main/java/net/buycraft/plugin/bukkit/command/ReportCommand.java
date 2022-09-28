@@ -31,7 +31,6 @@ public class ReportCommand implements Subcommand {
                     .client(plugin.getHttpClient())
                     .configuration(plugin.getConfiguration())
                     .platform(plugin.getPlatform())
-                    .duePlayerFetcher(plugin.getDuePlayerFetcher())
                     .ip(Bukkit.getIp())
                     .port(Bukkit.getPort())
                     .listingUpdateTask(plugin.getListingUpdateTask())

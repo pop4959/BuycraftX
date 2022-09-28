@@ -2,7 +2,6 @@ package net.buycraft.plugin.shared.util;
 
 import net.buycraft.plugin.IBuycraftPlatform;
 import net.buycraft.plugin.data.responses.ServerInformation;
-import net.buycraft.plugin.execution.DuePlayerFetcher;
 import net.buycraft.plugin.shared.config.BuycraftConfiguration;
 import net.buycraft.plugin.shared.tasks.ListingUpdateTask;
 import okhttp3.CacheControl;
@@ -18,8 +17,6 @@ import java.util.Date;
 import java.util.Objects;
 
 public class ReportBuilder {
-    @NotNull
-    private final DuePlayerFetcher duePlayerFetcher;
     private final ListingUpdateTask listingUpdateTask;
     @NotNull
     private final String ip;
@@ -32,8 +29,7 @@ public class ReportBuilder {
     @NotNull
     private final OkHttpClient client;
 
-    ReportBuilder(@NotNull final DuePlayerFetcher duePlayerFetcher, final ListingUpdateTask listingUpdateTask, @NotNull final String ip, final int port, final boolean serverOnlineMode, @NotNull final IBuycraftPlatform platform, @NotNull final BuycraftConfiguration configuration, @NotNull final OkHttpClient client) {
-        this.duePlayerFetcher = Objects.requireNonNull(duePlayerFetcher);
+    ReportBuilder(final ListingUpdateTask listingUpdateTask, @NotNull final String ip, final int port, final boolean serverOnlineMode, @NotNull final IBuycraftPlatform platform, @NotNull final BuycraftConfiguration configuration, @NotNull final OkHttpClient client) {
         this.listingUpdateTask = listingUpdateTask;
         this.ip = Objects.requireNonNull(ip);
         this.port = port;
@@ -79,7 +75,6 @@ public class ReportBuilder {
             writer.println("Server name: " + information.getServer().getName());
             writer.println("Server ID: " + information.getServer().getId());
         }
-        writer.println("Players in queue: " + duePlayerFetcher.getDuePlayers());
         if (listingUpdateTask != null) {
             writer.println("Listing update last completed: " + listingUpdateTask.getLastUpdate());
         }
@@ -106,7 +101,6 @@ public class ReportBuilder {
     }
 
     public static class ReportBuilderBuilder {
-        private DuePlayerFetcher duePlayerFetcher;
         private ListingUpdateTask listingUpdateTask;
         private String ip;
         private int port;
@@ -116,11 +110,6 @@ public class ReportBuilder {
         private OkHttpClient client;
 
         ReportBuilderBuilder() {
-        }
-
-        public ReportBuilderBuilder duePlayerFetcher(@NotNull final DuePlayerFetcher duePlayerFetcher) {
-            this.duePlayerFetcher = Objects.requireNonNull(duePlayerFetcher);
-            return this;
         }
 
         public ReportBuilderBuilder listingUpdateTask(final ListingUpdateTask listingUpdateTask) {
@@ -159,12 +148,12 @@ public class ReportBuilder {
         }
 
         public ReportBuilder build() {
-            return new ReportBuilder(duePlayerFetcher, listingUpdateTask, ip, port, serverOnlineMode, platform, configuration, client);
+            return new ReportBuilder(listingUpdateTask, ip, port, serverOnlineMode, platform, configuration, client);
         }
 
         @Override
         public String toString() {
-            return "ReportBuilder.ReportBuilderBuilder(duePlayerFetcher=" + this.duePlayerFetcher + ", listingUpdateTask=" + this.listingUpdateTask + ", ip=" + this.ip + ", port=" + this.port + ", serverOnlineMode=" + this.serverOnlineMode + ", platform=" + this.platform + ", configuration=" + this.configuration + ", client=" + this.client + ")";
+            return "ReportBuilder.ReportBuilderBuilder(listingUpdateTask=" + this.listingUpdateTask + ", ip=" + this.ip + ", port=" + this.port + ", serverOnlineMode=" + this.serverOnlineMode + ", platform=" + this.platform + ", configuration=" + this.configuration + ", client=" + this.client + ")";
         }
     }
 }
